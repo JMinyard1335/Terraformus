@@ -2,6 +2,9 @@
 Terraformus is a terraforming simulator for Computer Graphics CS4361.
 In it the user can add different elements and objects to a planet in order to terraform it into a habitable planet.
 
+![image](https://github.com/user-attachments/assets/8fc2dd8a-d6b4-4587-99f8-f4c7cbeb77ac)
+
+
 # Tech
 This project is written using Unity6.
 
