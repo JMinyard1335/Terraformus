@@ -1,9 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/Styles/tool_styles.uss?fileID=7433441132597879392&amp;guid=b14f516b393376cdfa75d05f959ec099&amp;type=3#tool_styles" />
-    <ui:VisualElement name="BottomPanel" style="flex-grow: 1; flex-direction: row; justify-content: center; position: absolute; bottom: 0; width: 100%; height: 100px; background-color: rgba(15, 1, 19, 0.65);">
-        <ui:Button text="Water&#10;" name="Water" />
-        <ui:Button text="Trees&#10;" name="Trees" />
-        <ui:Button text="Oxygen" name="Oxygen" />
-        <ui:Button text="CO2&#10;" name="CO2" />
-    </ui:VisualElement>
-</ui:UXML>
