@@ -68,7 +68,6 @@ Terraformus will be a 3D space experience. In it the user will get to see and be
   - Tundra
   - Canyons
   - Desert
->>>>>>> aaebe76 (Added Assertions and error checks, Refactored Terrain)
 
 # Building The Planet
 The planet is created by creating a grid of vertices based off of the desired resolution. The squares that then make up the grid are divided in to two triangles. 6 Grids are created and arranged in a cube. Each point from these faces on the unit cube are then pushed to round out the cube. Height is then applied to the point based off of the Noise. 
