@@ -12,7 +12,6 @@ Terraformus will be a 3D space experience. In it the user will get to see and be
 # Project Goals:
 ## Functional Minimum: 
 - Simple Procedural Planet Generation.
-<<<<<<< HEAD
 	- Mountains
 	- Grasslands
 	- Ocean
