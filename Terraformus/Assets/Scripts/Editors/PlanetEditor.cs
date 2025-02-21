@@ -1,21 +1,31 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(CubePlanet))]
+[CustomEditor(typeof(Planet))]
 public class PlanetEditor : Editor
 {
-    CubePlanet planet;
+    Planet planet;
 
     // Editors 
     Editor shapeEditor;
     Editor colorEditor;
 
-    public void OnEnable() {
-        planet = (CubePlanet)target;
+    public void OnEnable()
+    {
+        planet = (Planet)target;
     }
 
-    public override void OnInspectorGUI() {
+    /// <summary>
+    /// Overridding this allows you to display a custom inspector
+    /// </summary>
+    public override void OnInspectorGUI()
+    {
         base.OnInspectorGUI();
+        using var check = new EditorGUI.ChangeCheckScope();
+        if (check.changed)
+        {
+            planet.GeneratePlanet();
+        }
         ShowSettings(planet.colorSettings, planet.OnColorChanged, ref colorEditor, ref planet.colorFoldout);
         ShowSettings(planet.shapeSettings, planet.OnShapeChanged, ref shapeEditor, ref planet.shapeFoldout);
     }
@@ -27,25 +37,26 @@ public class PlanetEditor : Editor
     /// <param name="onChange">A funciton to call when settings change</param>
     /// <param name="e">The editor to draw on</param>
     /// <param name="foldout">Whether the settings are folded out or not</param>
-    private void ShowSettings(Object settings, 
-                                System.Action onChange, 
-                                ref Editor e, ref bool foldout) {
+    private void ShowSettings(Object settings,
+                                System.Action onChange,
+                                ref Editor e, ref bool foldout)
+    {
         // No settings to show
-        if (settings == null) return; 
+        if (settings == null) return;
 
         // Draws the titleBar
-        foldout = EditorGUILayout.InspectorTitlebar(foldout, settings);    
+        foldout = EditorGUILayout.InspectorTitlebar(foldout, settings);
 
         // Checks for changes in the editor and updates the shape
         using var check = new EditorGUI.ChangeCheckScope();
-        
+
         // Draws the settings editor
-        if(foldout) 
+        if (foldout)
         {
             CreateCachedEditor(settings, null, ref e);
             e.OnInspectorGUI();
         }
-        
+
         // Checks if there was a change
         if (!check.changed) return; // returns early if no changes in editor
         // Logic to call onChange

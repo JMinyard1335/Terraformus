@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc14d96f60b482655a9cef6590ad7033, type: 3}
+  m_Name: MoonShape
+  m_EditorClassIdentifier: 
+  planetRadius: 10
+  noiseSettings:
+    seed: 1
+    continentFrequency: 100
+    continentOctaves: 24
+    continentPrestiance: 0.5
+    continentLacunarity: 2
+    beachFrequency: 30
+    beachOctaves: 13
+    beachPersistence: 0.5
+    beachLacunarity: 2
+    plainsFrequency: 10
+    plainsOctaves: 30
+    plainsPersistence: 1
+    plainsLacunarity: 2
+    hillFrequency: 0.5
+    hillOctaves: 2
+    hillPersistence: 1
+    hillLacunarity: 2
+    mountainBaseFrequency: 0.5
+    mountainBaseOctaves: 4
+    mountainBasePersistence: 1
+    mountainBaseLacunarity: 2
+    mountainFrequency: 1
+    mountainOctaves: 9
+    mountainPersistence: 0.5
+    mountainLacunarity: 2
+    baseTerrainHeight: 0.1
+    beachHeight: 0.2
+    plainsHeight: 0.3
+    hillsHeight: 0.4
+    mountainsBaseHeight: 0.5
+    mountainsHeight: 0.7
+    minValue: 0

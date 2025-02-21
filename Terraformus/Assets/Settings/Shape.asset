@@ -12,11 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc14d96f60b482655a9cef6590ad7033, type: 3}
   m_Name: Shape
   m_EditorClassIdentifier: 
-  planetRadius: 1.75
+  planetRadius: 50
   noiseSettings:
-    center: {x: 0, y: 0, z: 0}
-    strength: 0.151
-    roughness: 0.337
-    seed: 10
-    baseFrequency: 1.29
-    mountainFrequency: 2.3
+    seed: 100
+    continentFrequency: 10
+    continentOctaves: 30
+    continentPrestiance: 0.5
+    continentLacunarity: 2
+    beachFrequency: 8
+    beachOctaves: 12
+    beachPersistence: 0.5
+    beachLacunarity: 2
+    plainsFrequency: 5
+    plainsOctaves: 14
+    plainsPersistence: 0.5
+    plainsLacunarity: 2
+    hillFrequency: 1
+    hillOctaves: 15
+    hillPersistence: 0.5
+    hillLacunarity: 2
+    mountainBaseFrequency: 1
+    mountainBaseOctaves: 15
+    mountainBasePersistence: 0.5
+    mountainBaseLacunarity: 2
+    mountainFrequency: 0.5
+    mountainOctaves: 1
+    mountainPersistence: 1
+    mountainLacunarity: 2
+    baseTerrainHeight: 0.1
+    beachHeight: 0.2
+    plainsHeight: 0.3
+    hillsHeight: 0.4
+    mountainsBaseHeight: 0.5
+    mountainsHeight: 0.7
+    minValue: 0.4
