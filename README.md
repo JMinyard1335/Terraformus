@@ -1,8 +1,8 @@
 # Terraformus
-	Terraformus will be a 3D space experience. In it the user will get to see and be a part of a world evolving over time. Your rock changes over time as mighty mountains rise, and the raging rivers cut winding caverns through the landscape. Grass begins to grow, then the trees take hold towering over the landscape. All of this while the user can affect the ways in which the planet evolves.
+Terraformus will be a 3D space experience. In it the user will get to see and be a part of a world evolving over time. Your rock changes over time as mighty mountains rise, and the raging rivers cut winding caverns through the landscape. Grass begins to grow, then the trees take hold towering over the landscape. All of this while the user can affect the ways in which the planet evolves.
 
+![EarlyTerrainGen](https://github.com/user-attachments/assets/74936765-9eda-4af7-8f7d-da50fbb5974f)
 
-![image](https://github.com/user-attachments/assets/8fc2dd8a-d6b4-4587-99f8-f4c7cbeb77ac)
 
 # Tech
 - [Unity 6](https://unity.com/releases/unity-6)
@@ -11,34 +11,34 @@
 
 # Project Goals:
 ## Functional Minimum: 
-	- Simple Procedural Planet Generation.
-		- Mountains
-		- Grasslands
-		- Ocean
- 	- Simple User controls
-		- The user should be able to spin the planet.
-		- The user should be able to change the zoom level.
+- Simple Procedural Planet Generation.
+	- Mountains
+	- Grasslands
+	- Ocean
+- Simple User controls
+	- The user should be able to spin the planet.
+	- The user should be able to change the zoom level.
 		
 ## Minimum Viable Product:
-	- Let the planet change over time.
-		- Starts off smoother
-		- Gains some Sharp Mountains
-		- Mountains become weathered and smooth
-	- Spawn Planet level details
-		- trees
-		- rivers
+- Let the planet change over time.
+	- Starts off smoother
+	- Gains some Sharp Mountains
+	- Mountains become weathered and smooth
+- Spawn Planet level details
+	- trees
+	- rivers
 		
 ## Desired Product:
-	- Allow the user to change features on the planet
-		- Plant Trees
-		- Add rivers
-		- Change Height
+- Allow the user to change features on the planet
+	- Plant Trees
+	- Add rivers
+	- Change Height
 
 ## Additional Features
-	- Add additional Biomes
-		- Tundra
-		- Canyons
-		- Desert
+- Add additional Biomes
+	- Tundra
+	- Canyons
+	- Desert
 
 # Building The Planet
 The planet is created by creating a grid of vertices based off of the desired resolution. The squares that then make up the grid are divided in to two triangles. 6 Grids are created and arranged in a cube. Each point from these faces on the unit cube are then pushed to round out the cube. Height is then applied to the point based off of the Noise. 
