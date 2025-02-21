@@ -7,16 +7,17 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
 
-    ShapeBuilder ShapeBuilder;
+    FaceGenerator faceGenerator;
 
     // How many triangles should be on each face  
     [Range(2, 256), Header("Planet Resolution")]
-    public int resolution = 10;
+    public int resolution = 40;
 
     // Custom Settings Made from scriptable objects
     [Header("Custom Settings")]
     public ShapeSettings shapeSettings;
     public ColorSettings colorSettings;
+    public TerrainSettings[] terrainSettings;
 
     [HideInInspector, SerializeField] MeshFilter[] meshFilters;
     PlanetFace[] planetFaces;
@@ -24,7 +25,9 @@ public class Planet : MonoBehaviour
     // Used to allow the inspector menus to collapse
     [HideInInspector] public bool colorFoldout = true;
     [HideInInspector] public bool shapeFoldout = true;
+    [HideInInspector] public bool[] terrainFoldouts;
 
+    // Defines the directions of the normal Vectors for the faces.
     Vector3[] directions = {
         Vector3.up,
         Vector3.down,
@@ -36,43 +39,44 @@ public class Planet : MonoBehaviour
 
     void Initialize()
     {
-        // Initialize the meshFilters, planetFaces, and ShapeBuilder if they are null.
-        meshFilters ??= new MeshFilter[6];
-        planetFaces ??= new PlanetFace[6];
-        ShapeBuilder ??= new ShapeBuilder(shapeSettings, colorSettings);
+        if (meshFilters == null || meshFilters.Length == 0)
+        {
+            Debug.Log("Planet: MeshFilter Array was null or Empty. Creating a new one");
+            meshFilters = new MeshFilter[6];
+        }
+
+        planetFaces = new PlanetFace[6];
+        faceGenerator ??= new FaceGenerator(shapeSettings);
+
+        Debug.Assert(faceGenerator != null, "Planet/Initialize: FaceGenerator was not created");
+        Debug.Assert(meshFilters != null, "Planet/Initialize: MeshFilters was not created");
+        Debug.Assert(planetFaces != null, "Planet/Initialize: PlanetFaces was not created");
 
         // Create the Meshes if they dont exist, and create the planet faces.
         for (int i = 0; i < 6; i++)
         {
             if (meshFilters[i] == null)
-                CreateMeshFilter(i);
+            {
 
-            // Create a new planet face if it does not exist.
-            if (planetFaces[i] == null)
-                planetFaces[i] = new PlanetFace(
-                    ShapeBuilder, meshFilters[i].sharedMesh,
-                    resolution, directions[i]
-                );
+                CreateMeshObject(i);
+            }
 
-            // Otherwise update the exisiting Face
-            planetFaces[i].UpdatePlanetFace(
-                meshFilters[i].sharedMesh,
+            planetFaces[i] = new PlanetFace(
+                faceGenerator, meshFilters[i].sharedMesh,
                 resolution, directions[i]
             );
-
-
         }
     }
 
     /// <summary>
-    /// Used to create a MeshFilter 
+    /// Used to create a Mesh Object
+    /// Has a MeshFilter, MeshRenderer, and Mesh.
     /// </summary>
     /// <param name="i"></param>
-    private void CreateMeshFilter(int i)
+    private void CreateMeshObject(int i)
     {
-        // Create a new GameObject to store all the mesh data
-        // Set its parent to the current object(Should be a planet face)
-        GameObject meshObj = new GameObject("mesh " + i);
+        Debug.Log("Planet/CreateMeshObject: MeshFilter [" + i + "] was null. Creating a new one");
+        GameObject meshObj = new("mesh " + i);
         meshObj.transform.parent = transform;
 
         // Adds a meshRenderer which is used to display the mesh
@@ -82,6 +86,17 @@ public class Planet : MonoBehaviour
         // Give the object a MeshFilter which holds the mesh data, and assign it a new Mesh
         meshFilters[i] = meshObj.AddComponent<MeshFilter>();
         meshFilters[i].sharedMesh = new Mesh();
+
+        // These Assertions are used to make sure the MeshObject was created and assigned.
+        Debug.Assert(
+            meshFilters[i] != null,
+            "Planet/CreateMeshObject: MeshObject was not created."
+        );
+        Debug.Assert(
+            meshFilters[i].sharedMesh != null,
+            "Planet/CreateMeshObject: Mesh was not created."
+        );
+
     }
 
     /// <summary>
@@ -90,8 +105,17 @@ public class Planet : MonoBehaviour
     /// </summary>
     public void OnColorChanged()
     {
+        //Debug.Log("Color Settings Changed");
         Initialize();
         GenerateColors();
+    }
+
+    public void OnNoiseChanged()
+    {
+        //Debug.Log("Noise Settings Changed");
+        Initialize();
+        GenerateMesh();
+        faceGenerator.UpdateNoise();
     }
 
     /// <summary>
@@ -100,6 +124,7 @@ public class Planet : MonoBehaviour
     /// </summary>
     public void OnShapeChanged()
     {
+        //Debug.Log("Shape Settings Changed");
         Initialize();
         GenerateMesh();
     }

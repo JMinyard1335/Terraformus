@@ -9,10 +9,17 @@ public class PlanetEditor : Editor
     // Editors 
     Editor shapeEditor;
     Editor colorEditor;
+    Editor[] terrainEditor;
 
     public void OnEnable()
     {
         planet = (Planet)target;
+        if (planet.terrainFoldouts == null || planet.terrainFoldouts.Length != planet.terrainSettings.Length)
+        {
+            planet.terrainFoldouts = new bool[planet.terrainSettings.Length];
+        }
+
+        terrainEditor = new Editor[planet.terrainSettings.Length];
     }
 
     /// <summary>
@@ -20,14 +27,25 @@ public class PlanetEditor : Editor
     /// </summary>
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
-        using var check = new EditorGUI.ChangeCheckScope();
-        if (check.changed)
+        using (var check = new EditorGUI.ChangeCheckScope())
         {
-            planet.GeneratePlanet();
+            base.OnInspectorGUI();
+            if (check.changed)
+            {
+                planet.GeneratePlanet();
+            }
         }
+
         ShowSettings(planet.colorSettings, planet.OnColorChanged, ref colorEditor, ref planet.colorFoldout);
         ShowSettings(planet.shapeSettings, planet.OnShapeChanged, ref shapeEditor, ref planet.shapeFoldout);
+
+        Debug.Assert(planet.terrainSettings != null, "PlanetEditor/OnInspectorGUI: TerrainSettings was null");
+        for (int i = 0; i < planet.terrainSettings.Length; i++)
+        {
+            Debug.Assert(i < planet.terrainFoldouts.Length, "PlanetEditor/OnInspectorGUI: TerrainFoldouts was null");
+            Debug.Assert(i < planet.terrainSettings.Length, "PlanetEditor/OnInspectorGUI: TerrainSettings was null");
+            ShowSettings(planet.terrainSettings[i], planet.OnNoiseChanged, ref terrainEditor[i], ref planet.terrainFoldouts[i]);
+        }
     }
 
     /// <summary>

@@ -2,37 +2,35 @@ using UnityEngine;
 
 public class PlanetFace
 {
-
-    ShapeBuilder shapeBuilder;
+    FaceGenerator faceGenerator;
     Mesh mesh;
 
+    // Used in the calculations of the vertices and triangles  
     int resolution;
-    int[] triangles;
     int triIndex;
+    int[] triangles;
 
 
-    Vector3 faceNormal; // This is the normal vector to the face.
-    // These are the vectors orthogonal to the face normal. togethers these define the plane of the face.
+    // Vectors used to calculate the positioning of the face.
+    // Normal Vector
+    Vector3 faceNormal;
+    // Orthogonal Vectors
     Vector3 A;
     Vector3 B;
 
 
-    public PlanetFace(ShapeBuilder ss, Mesh m, int resolution, Vector3 faceNormal)
+    public PlanetFace(FaceGenerator faceGenerator, Mesh mesh, int resolution, Vector3 faceNormal)
     {
-        mesh = m;
+        // Run some assertions to make sure the inputs are valid.
+        Debug.Assert(faceGenerator != null, "PlanetFace: ShapeBuilder cannot be null");
+        Debug.Assert(mesh != null, "PlanetFace: Mesh cannot be null");
+        Debug.Assert(resolution > 1, "PlanetFace: Resolution must be greater than 1");
+        Debug.Assert(faceNormal != null, "PlanetFace: FaceNormal cannot be null");
+
+        this.mesh = mesh;
         this.resolution = resolution;
         this.faceNormal = faceNormal;
-        shapeBuilder = ss;
-
-        A = new Vector3(faceNormal.y, faceNormal.z, faceNormal.x);
-        B = Vector3.Cross(faceNormal, A);
-    }
-
-    public void UpdatePlanetFace(Mesh m, int resolution, Vector3 faceNormal)
-    {
-        mesh = m;
-        this.resolution = resolution;
-        this.faceNormal = faceNormal;
+        this.faceGenerator = faceGenerator;
 
         A = new Vector3(faceNormal.y, faceNormal.z, faceNormal.x);
         B = Vector3.Cross(faceNormal, A);
@@ -44,27 +42,40 @@ public class PlanetFace
     /// </summary>
     public void ConstructMesh()
     {
+        // The number of vertices = resolution * resolution
         Vector3[] vertices = new Vector3[resolution * resolution];
-        triangles ??= new int[(resolution - 1) * (resolution - 1) * 6];
+        Debug.Assert(
+            vertices.Length == resolution * resolution,
+            "PlanetFace: Vertices were not filled correctly"
+        );
+
+        // The number of triangles = number of squares on the face * 2 triangles per square * 3 vertices per triangle
+        triangles = new int[(resolution - 1) * (resolution - 1) * 6];
+        Debug.Assert(
+            triangles.Length == (resolution - 1) * (resolution - 1) * 6,
+            "PlanetFace: Triangles were not filled correctly"
+        );
+
         triIndex = 0;
 
-        for (int y = 0; y < resolution; y++)
+        for (int y = 0, i = 0; y < resolution; y++)
         {
-            for (int x = 0; x < resolution; x++)
+            for (int x = 0; x < resolution; x++, i++)
             {
-                int i = x + y * resolution;
-                Vector2 percent = new Vector2(x, y) / (resolution - 1);
-                Vector3 pointOnUnitCube = faceNormal + (percent.x - .5f) * 2 * A + (percent.y - .5f) * 2 * B;
-                Vector3 pointOnUnitSphere = pointOnUnitCube.normalized;
-                vertices[i] = shapeBuilder.CalculatePosition(pointOnUnitSphere);
+                // Original 'i' Calculations, Moved it to the for loop.
+                //int i = x + y * resolution;
 
-                if (x != resolution - 1 && y != resolution - 1)
-                {
-                    TriangulateFace(i);
-                }
+                Vector2 percent = new Vector2(x, y) / (resolution - 1);
+                Vector3 pointOnUnitCube = faceNormal + 2 * ((percent.x - .5f) * A + (percent.y - .5f) * B);
+                Vector3 pointOnUnitSphere = pointOnUnitCube.normalized;
+                vertices[i] = faceGenerator.CalculatePosition(pointOnUnitSphere);
+
+                // If we are not at the edge of the face, triangulate the face
+                if (x != resolution - 1 && y != resolution - 1) { TriangulateFace(i); }
             }
         }
 
+        Debug.Assert(triIndex == triangles.Length, "PlanetFace: Triangles were not filled correctly");
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
@@ -78,9 +89,7 @@ public class PlanetFace
     /// <exception cref="System.NullReferenceException"></exception>
     private void TriangulateFace(int index)
     {
-        if (triangles == null)
-            throw new System.NullReferenceException("Triangles array is null.");
-
+        Debug.Assert(triangles != null, "PlanetFace/TriangulateFace: triangles[] cannot be null");
 
         // Create the triangles
         triangles[triIndex] = index;
@@ -94,5 +103,6 @@ public class PlanetFace
         // Move the index to the next set of triangles
         triIndex += 6;
     }
+
 }
 
