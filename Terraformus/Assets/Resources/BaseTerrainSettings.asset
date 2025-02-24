@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f976e726811fd31867ae70a400189c, type: 3}
   m_Name: BaseTerrainSettings
   m_EditorClassIdentifier: 
-  frequency: 60
+  frequency: 70
   octaves: 22
   persistence: 0.5
   lacunarity: 2

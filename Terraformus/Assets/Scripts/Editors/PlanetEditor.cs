@@ -78,7 +78,7 @@ public class PlanetEditor : Editor
         // Checks if there was a change
         if (!check.changed) return; // returns early if no changes in editor
         // Logic to call onChange
-        if (onChange != null) onChange();
+        onChange?.Invoke();
     }
 
 }

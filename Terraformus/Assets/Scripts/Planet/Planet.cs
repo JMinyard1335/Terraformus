@@ -46,7 +46,7 @@ public class Planet : MonoBehaviour
         }
 
         planetFaces = new PlanetFace[6];
-        faceGenerator ??= new FaceGenerator(shapeSettings);
+        faceGenerator = new FaceGenerator(shapeSettings);
 
         Debug.Assert(faceGenerator != null, "Planet/Initialize: FaceGenerator was not created");
         Debug.Assert(meshFilters != null, "Planet/Initialize: MeshFilters was not created");
@@ -109,21 +109,15 @@ public class Planet : MonoBehaviour
         GenerateColors();
     }
 
-    public void OnNoiseChanged()
-    {
-        //Debug.Log("Noise Settings Changed");
-        Initialize();
-        GenerateMesh();
-    }
-
     /// <summary>
     /// Called when the shape settings change.
     /// Allows for dynamic updates from the editor
     /// </summary>
     public void OnShapeChanged()
     {
-        //Debug.Log("Shape Settings Changed");
+        Debug.Log("Shape Settings Changed");
         Initialize();
+        faceGenerator.UpdateNoise();
         GenerateMesh();
     }
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d9fa20c20444a3d994d4af56662b970, type: 3}
   m_Name: Color
   m_EditorClassIdentifier: 
-  MeshColor: {r: 0.492402, g: 0.8396226, b: 0.4000089, a: 0}
+  MeshColor: {r: 0.51785624, g: 0.8392157, b: 0.4, a: 0}
   DeepOceanColor: {r: 0.02336242, g: 0.07690734, b: 0.7075472, a: 0}
   ShallowOceanColor: {r: 0.33459416, g: 0.67398703, b: 0.9716981, a: 0}
   BeachColor: {r: 0.9811321, g: 0.90934706, b: 0.5229619, a: 0}
