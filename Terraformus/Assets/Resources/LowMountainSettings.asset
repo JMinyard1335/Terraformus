@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: LowMountainSettings
   m_EditorClassIdentifier: 
   frequency: 0.02
-  octaves: 2
+  octaves: 5
   persistence: 0.5
   lacunarity: 2

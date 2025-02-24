@@ -44,7 +44,7 @@ public class PlanetEditor : Editor
         {
             Debug.Assert(i < planet.terrainFoldouts.Length, "PlanetEditor/OnInspectorGUI: TerrainFoldouts was null");
             Debug.Assert(i < planet.terrainSettings.Length, "PlanetEditor/OnInspectorGUI: TerrainSettings was null");
-            ShowSettings(planet.terrainSettings[i], planet.OnNoiseChanged, ref terrainEditor[i], ref planet.terrainFoldouts[i]);
+            ShowSettings(planet.terrainSettings[i], planet.OnShapeChanged, ref terrainEditor[i], ref planet.terrainFoldouts[i]);
         }
     }
 

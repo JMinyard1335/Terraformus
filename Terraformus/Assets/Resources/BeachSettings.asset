@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f976e726811fd31867ae70a400189c, type: 3}
   m_Name: BeachSettings
   m_EditorClassIdentifier: 
-  frequency: 50
-  octaves: 30
+  frequency: 20
+  octaves: 16
   persistence: 0.5
   lacunarity: 2

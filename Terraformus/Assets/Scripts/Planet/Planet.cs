@@ -57,7 +57,6 @@ public class Planet : MonoBehaviour
         {
             if (meshFilters[i] == null)
             {
-
                 CreateMeshObject(i);
             }
 
@@ -115,7 +114,6 @@ public class Planet : MonoBehaviour
         //Debug.Log("Noise Settings Changed");
         Initialize();
         GenerateMesh();
-        faceGenerator.UpdateNoise();
     }
 
     /// <summary>

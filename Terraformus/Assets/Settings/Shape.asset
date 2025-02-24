@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc14d96f60b482655a9cef6590ad7033, type: 3}
   m_Name: Shape
   m_EditorClassIdentifier: 
-  planetRadius: 10
+  planetRadius: 70
   noiseSettings:
     seed: 1
     baseTerrainHeight: 0.1
@@ -21,4 +21,4 @@ MonoBehaviour:
     hillsHeight: 0.4
     mountainsBaseHeight: 0.5
     mountainsHeight: 0.7
-    minValue: 0.39
+    minValue: 0.4
