@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetRadius: 70
   noiseSettings:
-    seed: 5
+    seed: 100
     baseTerrainHeight: 0.1
     beachHeight: 0.2
     plainsHeight: 0.3
