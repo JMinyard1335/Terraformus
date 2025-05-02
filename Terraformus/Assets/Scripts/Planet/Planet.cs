@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
+
 
 /// <summary>
 /// Class that manages the planet on a high level.
@@ -36,6 +40,9 @@ public class Planet : MonoBehaviour
         Vector3.forward,
         Vector3.back
     };
+
+    // Store normalized average elevation per face
+    List<float> normalizedPerFace = new List<float>();
 
     void Initialize()
     {
@@ -130,6 +137,21 @@ public class Planet : MonoBehaviour
     {
         Initialize();
         GenerateMesh();
+
+        //Calculate normalized average elevation per face
+        List<float> allElevations = faceGenerator.elevationList;
+        float minElevation = shapeSettings.noiseSettings.minValue;
+        float maxElevation = allElevations.Max();
+
+        normalizedPerFace.Clear();
+        foreach (PlanetFace face in planetFaces)
+        {
+            float avg = face.faceElevations.Average();
+            float norm = Mathf.InverseLerp(minElevation, maxElevation, avg);
+            normalizedPerFace.Add(norm);
+
+        }
+
         GenerateColors();
     }
 
@@ -139,6 +161,7 @@ public class Planet : MonoBehaviour
     /// </summary>
     void GenerateMesh()
     {
+        faceGenerator.ClearElevations();
         foreach (PlanetFace face in planetFaces)
         {
             face.ConstructMesh();
@@ -146,15 +169,22 @@ public class Planet : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets each of the meshes to the mesh color in the color settings.
-    /// TODO: Find a way to create some sort of color manager.
-    /// The manager should set different colors based on the height of the mesh.
+    /// TODO: Add a list to the FaceGenerator.cs script to hold the eleveation values
+    ///     done - made a float list as part of the face generator class
+    /// TODO: give that list to the planet face
+    ///     done - basically done since the face generator is passed to the planet face
+    /// TODO: Create a way to assign a float 0.0 -> 1.0 for different elevation ranges
+    /// TODO: Set the float in the gradient shader based off of the previous step
+    /// TODO: Change the float node in the shader to be referenceable 
     /// </summary>
     void GenerateColors()
     {
-        foreach (MeshFilter m in meshFilters)
+        for(int i=0; i < meshFilters.Length; i++)
         {
-            m.GetComponent<MeshRenderer>().sharedMaterial.color = colorSettings.MeshColor;
+            float gradValue = i < normalizedPerFace.Count ? normalizedPerFace[i] : 0f;
+            meshFilters[i].GetComponent<MeshRenderer>().sharedMaterial.SetFloat("_GradHeight", gradValue);
         }
+        
+        
     }
 }

@@ -1,4 +1,8 @@
 using UnityEngine;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 
 public class PlanetFace
 {
@@ -17,6 +21,9 @@ public class PlanetFace
     // Orthogonal Vectors
     Vector3 A;
     Vector3 B;
+
+    // used for shaders
+    public List<float> faceElevations = new List<float>();
 
 
     public PlanetFace(FaceGenerator faceGenerator, Mesh mesh, int resolution, Vector3 faceNormal)
@@ -79,6 +86,13 @@ public class PlanetFace
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+
+        faceElevations = faceGenerator.elevationList
+            .Skip(faceElevations.Count)
+            .Take(resolution * resolution)
+            .ToList();
+
+
         mesh.RecalculateNormals();
     }
 
