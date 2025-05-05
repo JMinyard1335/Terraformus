@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Class that manages the planet on a high level.
@@ -8,6 +9,8 @@ public class Planet : MonoBehaviour
 {
 
     FaceGenerator faceGenerator;
+    public InputField inputField;
+    public Slider resolutionSlider;
 
     // How many triangles should be on each face  
     [Range(2, 256), Header("Planet Resolution")]
@@ -36,6 +39,12 @@ public class Planet : MonoBehaviour
         Vector3.forward,
         Vector3.back
     };
+
+    void Start()
+    {
+        inputField.onEndEdit.AddListener(OnValueChanged);
+        resolutionSlider.onValueChanged.AddListener(OnSliderChanged);
+    }
 
     void Initialize()
     {
@@ -157,4 +166,31 @@ public class Planet : MonoBehaviour
             m.GetComponent<MeshRenderer>().sharedMaterial.color = colorSettings.MeshColor;
         }
     }
+
+    public void GenRandomPlanet()
+    {
+        shapeSettings.noiseSettings.seed = UnityEngine.Random.Range(0, 100000);
+        GeneratePlanet();
+    }
+
+    void OnValueChanged(string input)
+    {
+        if (int.TryParse(input, out int result))
+        {
+            shapeSettings.noiseSettings.seed = result;
+            GeneratePlanet();
+        }
+        else
+        {
+            Debug.LogWarning("Invalid input: not an integer");
+        }
+    }
+
+    void OnSliderChanged(float value)
+    {
+        resolution = (int)value;
+        GeneratePlanet();
+    }
+
+
 }
